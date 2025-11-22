@@ -30,23 +30,33 @@ public class StatementPrinter {
      * @throws RuntimeException if one of the play types is not known
      */
     public String statement() {
-        int totalAmount = 0;
-        int volumeCredits = 0;
+
         final StringBuilder result =
-                new StringBuilder("Statement for " + invoice.getCustomer() + System.lineSeparator());
+                new StringBuilder("Statement for " + getInvoice().getCustomer() + System.lineSeparator());
+        for (Performance p : getInvoice().getPerformances()) {
 
-        for (Performance p : invoice.getPerformances()) {
-
-            volumeCredits = getVolumeCredits(p);
-
-            // print line for this order
             result.append(String.format("  %s: %s (%s seats)%n", getPlay(p).getName(),
                     usd(getAmount(p)), p.getAudience()));
+        }
+        result.append(String.format("Amount owed is %s%n", usd(getTotalAmount())));
+        result.append(String.format("You earned %s credits%n", getTotalVolumeCredits()));
+        return result.toString();
+    }
+
+    private int getTotalAmount() {
+        int totalAmount = 0;
+        for (Performance p : getInvoice().getPerformances()) {
             totalAmount += getAmount(p);
         }
-        result.append(String.format("Amount owed is %s%n", usd(totalAmount)));
-        result.append(String.format("You earned %s credits%n", volumeCredits));
-        return result.toString();
+        return totalAmount;
+    }
+
+    private int getTotalVolumeCredits() {
+        int volumeCredits = 0;
+        for (Performance performance : getInvoice().getPerformances()) {
+            volumeCredits += getVolumeCredits(performance);
+        }
+        return volumeCredits;
     }
 
     private String usd(int totalAmount) {
@@ -64,7 +74,7 @@ public class StatementPrinter {
     }
 
     private Play getPlay(Performance performance) {
-        return plays.get(performance.getPlayID());
+        return getPlays().get(performance.getPlayID());
     }
 
     private int getAmount(Performance performance) {
