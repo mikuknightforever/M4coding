@@ -5,7 +5,5 @@ f211e5c Task 2.3
 363675a Task 1.2.
 64c4a8d (origin/main, origin/HEAD) Task 2.1.
 e1459e8 Task 2.1.
-2ffa9bb Task 1.1.
 ba55808 Task 1.1.
 6336940 Merge remote-tracking branch 'origin/main'
-93a4662 Task 3.2 finish
