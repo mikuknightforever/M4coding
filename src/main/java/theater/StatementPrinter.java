@@ -45,8 +45,8 @@ public class StatementPrinter {
 
     private int getTotalAmount() {
         int totalAmount = 0;
-        for (Performance p : getInvoice().getPerformances()) {
-            totalAmount += getAmount(p);
+        for (Performance performance : getInvoice().getPerformances()) {
+            totalAmount += getAmount(performance);
         }
         return totalAmount;
     }
